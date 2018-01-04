@@ -1,0 +1,35 @@
+#!/usr/bin/env perl
+
+my $columns = [
+    { name => "Trent",
+      1 => "foo.jpg"
+    },
+    { name => "The Little Girl",
+      0 => "bar.jpg"
+    },
+];
+
+# find the first and last year mentioned
+my $yrs;
+my $yre;
+foreach my $col (@$columns)
+{
+    foreach my $k (keys %{$col})
+    {
+        next unless $k =~ /^\d+$/;
+        $yrs = $k if not defined $yrs or $yrs > $k;
+        $yre = $k if $yre < $k;
+    }
+}
+
+# print header
+print join(" ", "age", map($_->{name}, @$columns)), "\n";
+foreach my $yr ($yrs..$yre)
+{
+    print $yr, " ";
+    foreach my $col (@$columns)
+    {
+        print $col->{$yr}, " ";
+    }
+    print "\n";
+}
